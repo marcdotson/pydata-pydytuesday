@@ -1,0 +1,124 @@
+---
+title: |
+  | *#TidyTuesday #PydyTuesday*
+  | A Weekly Data Project
+subtitle: |
+  | PyData Northern Utah
+  | [github.com/marcdotson/pydata-pydytuesday](https://github.com/marcdotson/pydata-pydytuesday)
+author: Marc Dotson
+date: 2025-03-27
+title-slide-attributes:
+  data-background-color: "#486790"
+format: 
+  revealjs:
+    theme: marc.scss     # Modified simple theme.
+    slide-number: c/t    # Numbered slides current/total.
+    self-contained: true # Render to a single HTML file.
+execute:
+  eval: false
+  echo: true
+---
+
+## 
+
+:::: {.columns .v-center}
+
+::: {.column width="40%"}
+![](../figures/pydata.png){fig-align="center"}
+:::
+
+::: {.column width="60%"}
+::: {.incremental}
+- Professional forum to learn/retool
+- Global network of chapters
+- Workshops vary from beginning to advanced
+- Polyglot (Python, Julia, R, etc.)
+- We follow the [PyData Code of Conduct](https://pydata.org/code-of-conduct/)
+- Join at [meetup.com/pydata-northern-utah](https://www.meetup.com/pydata-northern-utah/)
+:::
+:::
+
+::::
+
+## 
+
+:::: {.columns .v-center}
+
+::: {.column width="40%"}
+![](../figures/tidytuesday.png){fig-align="center"}
+:::
+
+::: {.column width="60%"}
+::: {.incremental}
+- Weekly social data project
+- Opportunity to practice, add to portfolios
+- New project provided every week
+- Share with *#TidyTuesday #PydyTuesday*
+- Named after the "tidy" data philosophy
+- Get started at [tidytues.day](https://tidytues.day)
+:::
+:::
+
+::::
+
+## 
+
+:::: {.columns .v-center}
+
+::: {.column width="100%"}
+```{python}
+#| code-line-numbers: "|1-2|4-5|7-12|14-18|20-24"
+import polars as pl
+import seaborn.objects as so
+
+pokemon_url = 'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-04-01/pokemon_df.csv'
+pokemon_df = pl.read_csv(pokemon_url, null_values = ['NA'])
+
+# Which primary type is most common?
+(pokemon_df
+  .group_by(pl.col(['type_1']))
+  .agg(n = pl.len())
+  .sort(pl.col('n'), descending = True)
+)
+
+# What's the relationship between attack, hp, and primary type?
+(so.Plot(pokemon_df, x = 'attack', y = 'hp')
+  .add(so.Dot(pointsize = 5, alpha = 0.50))
+  .add(so.Line(), so.PolyFit(order = 1))
+)
+
+(so.Plot(pokemon_df, x = 'attack', y = 'hp')
+  .add(so.Dot(pointsize = 5, alpha = 0.50))
+  .add(so.Line(), so.PolyFit(order = 1))
+  .facet(col = 'type_1', wrap = 3)
+)
+```
+:::
+
+::::
+
+## 
+
+:::: {.columns .v-center}
+
+::: {.column width="100%"}
+![](../figures/pokemon.png){fig-align="center"}
+:::
+
+::::
+
+# {background-color="#486790"}
+
+:::: {.columns .v-center}
+
+::: {.column width="60%"}
+![](../figures/pydata-northern-utah-qr.png){fig-align="center"}
+:::
+
+::: {.column width="40%"}
+[marc.dotson@usu.edu](mailto:marc.dotson@usu.edu)  
+[github.com/marcdotson](https://github.com/marcdotson)  
+[occasionaldivergences.com](https://occasionaldivergences.com)
+:::
+
+::::
